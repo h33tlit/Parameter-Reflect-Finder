@@ -37,3 +37,7 @@ Now enter the domain which you want to scan! It will scan for reflected paramete
 
 * OTX
 * Wayback
+
+
+Idea & Concept Credit: @<a href="https://github.com/sup3r-b0y">Mrityunjoy</a>
+Developed by: Jubaer
