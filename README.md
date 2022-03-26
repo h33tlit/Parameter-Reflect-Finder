@@ -7,7 +7,7 @@
  
   
   
-Parameter-Reflect-Finder is a python based tool that helps you find reflected parameters which can be potential XSS or Open redirection vulnerabilities upon exploitation.
+Parameter-Reflect-Finder is a python based tool that helps you find reflected parameters which can have potential XSS or Open redirection vulnerabilities.
 </p>
 
 
