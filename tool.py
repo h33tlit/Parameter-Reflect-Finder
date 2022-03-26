@@ -76,7 +76,7 @@ found_links = []
 open_redirect = []
 try:
 
-    with ThreadPoolExecutor(max_workers=1000) as pool:
+    with ThreadPoolExecutor(max_workers=100000) as pool:
         response_list = list(pool.map(check_xss, fetched_url))
     file_write = []
     for r in response_list:
