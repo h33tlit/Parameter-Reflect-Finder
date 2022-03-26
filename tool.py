@@ -12,7 +12,7 @@ from fake_useragent import UserAgent
 fetched_url = []
 common_fetched_url = set()
 ua = UserAgent()
-domain = input('Type domain: ')
+domain = input('Type domain (eg. test.com) ==> ')
 
 
 print("=>>> We just started! Give us some time!")
@@ -89,10 +89,12 @@ except:
 
 if len(found_links) != 0:
     print('\n#######################-  Possible XSS   -###########################')
-    print(found_links)
+    for links1 in found_links:
+        print(links1)
     print('\n#######################-  Possible Open Redirect   -###########################')
     if len(open_redirect) != 0:
-        print(open_redirect)
+        for links in open_redirect:
+            print(links)
     elif len(open_redirect) == 0:
         print("No links found!")
 elif len(found_links) == 0:
