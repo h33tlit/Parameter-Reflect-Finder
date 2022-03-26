@@ -39,5 +39,6 @@ Now enter the domain which you want to scan! It will scan for reflected paramete
 * Wayback
 
 
-Idea & Concept Credit: @<a href="https://github.com/sup3r-b0y">Mrityunjoy</a>
+Idea & Concept Credit: <a href="https://github.com/sup3r-b0y">Mrityunjoy</a>
+<br/>
 Developed by: Jubaer
