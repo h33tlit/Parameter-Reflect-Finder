@@ -11,9 +11,8 @@ Parameter-Reflect-Finder is a python based tool that helps you find reflected pa
 </p>
 
 
+<img width="1182" alt="Screenshot 2022-03-27 at 5 29 10 PM" src="https://user-images.githubusercontent.com/97327489/160275390-f3e0b769-b025-4956-a1a9-b25a61f1a163.png">
 
-
-<img width="1028" alt="Screenshot 2022-03-27 at 2 37 31 AM" src="https://user-images.githubusercontent.com/97327489/160252788-c39fa087-b096-4a62-83cf-007c4d638d17.png">
 
 
 
