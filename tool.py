@@ -72,18 +72,18 @@ def check_xss(xss_urls):
         pass
 
 
-found_links = []
-open_redirect = []
+found_links = set()
+open_redirect = set()
 try:
 
-    with ThreadPoolExecutor(max_workers=100000) as pool:
+    with ThreadPoolExecutor(max_workers=1000) as pool:
         response_list = list(pool.map(check_xss, fetched_url))
     file_write = []
     for r in response_list:
         if r is not None:
-            found_links.append(r)
+            found_links.add(r)
             if 'url' and '=http' in r:
-                open_redirect.append(r)
+                open_redirect.add(r)
 except:
     pass
 
