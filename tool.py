@@ -12,8 +12,12 @@ from fake_useragent import UserAgent
 fetched_url = []
 common_fetched_url = set()
 ua = UserAgent()
+
+#Taking domain as an input
 domain = input('Type domain (eg. test.com) ==> ')
 
+
+#Collecting URLs from APIs
 
 print("=>>> We just started! Give us some time!")
 try:
@@ -56,10 +60,12 @@ for url in common_fetched_url:
     except:
         pass
 
+
+
 print("==>>> We will be scanning "+str(len(fetched_url))+" links!")
 
 
-
+#Scanning all the fetched URLs and formatting them
 def check_xss(xss_urls):
     try:
         req = requests.get(xss_urls, timeout=1, headers = {'User-Agent':str(ua.chrome)}).text
@@ -86,6 +92,8 @@ try:
                 open_redirect.add(r)
 except:
     pass
+
+#Printing the results
 
 if len(found_links) != 0:
     print('\n#######################-  Possible XSS   -###########################')
