@@ -29,6 +29,7 @@ Use "pip" to install all the required packages!
 ```python3 tool.py```
 
 Now enter the domain which you want to scan! It will scan for reflected parameters and show some urls with possible open redirect vulnerabilities.
+You can also set your custom max thread.
 
 
 # API Used
