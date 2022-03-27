@@ -13,13 +13,16 @@ fetched_url = []
 common_fetched_url = set()
 ua = UserAgent()
 
-#Taking domain as an input
+#Taking user inputs
 domain = input('Type domain (eg. test.com) ==> ')
+max_thread = input('Max thread (eg. 1000) ==> ')
 
-
-#Collecting URLs from APIs
 
 print("=>>> We just started! Give us some time!")
+
+
+#Capturing API results to get URLs
+
 try:
     alienvault_request_fetch = requests.get('https://otx.alienvault.com/api/v1/indicators/hostname/'+domain+'/url_list?limit=1000', timeout=5, headers = {'User-Agent':str(ua.chrome)}).json()
     for request_url in alienvault_request_fetch['url_list']:
@@ -47,6 +50,7 @@ except:
     pass
 
 
+# Formatting the URLs
 for url in common_fetched_url:
     try:
         urlpara = url.split("?")[1]
@@ -60,12 +64,11 @@ for url in common_fetched_url:
     except:
         pass
 
-
-
 print("==>>> We will be scanning "+str(len(fetched_url))+" links!")
 
 
-#Scanning all the fetched URLs and formatting them
+
+#Scan for reflected keyword
 def check_xss(xss_urls):
     try:
         req = requests.get(xss_urls, timeout=1, headers = {'User-Agent':str(ua.chrome)}).text
@@ -80,20 +83,25 @@ def check_xss(xss_urls):
 
 found_links = set()
 open_redirect = set()
-try:
 
-    with ThreadPoolExecutor(max_workers=1000) as pool:
-        response_list = list(pool.map(check_xss, fetched_url))
-    file_write = []
-    for r in response_list:
-        if r is not None:
-            found_links.add(r)
-            if 'url' and '=http' in r:
-                open_redirect.add(r)
+if len(max_thread) == 0:
+    max_thread = 1000
+
+try:
+        with ThreadPoolExecutor(max_workers=int(max_thread)) as pool:
+            response_list = list(pool.map(check_xss, fetched_url))
+        file_write = []
+        for r in response_list:
+            if r is not None:
+                found_links.add(r)
+                if 'url' and '=http' in r:
+                    open_redirect.add(r)
 except:
     pass
 
-#Printing the results
+
+#Showing results
+
 
 if len(found_links) != 0:
     print('\n#######################-  Possible XSS   -###########################')
