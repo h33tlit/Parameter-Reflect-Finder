@@ -10,7 +10,10 @@
 Parameter-Reflect-Finder is a python based tool that helps you find reflected parameters which can have potential XSS or Open redirection vulnerabilities.
 </p>
 
-<img width="1302" alt="Screenshot 2022-03-27 at 5 45 13 PM" src="https://user-images.githubusercontent.com/97327489/160275901-7867bf66-71c0-4e5b-856d-b08b35d4f81b.png">
+
+![image](https://user-images.githubusercontent.com/97327489/173410443-368cbb81-7245-4ef7-b4c9-ce053154aeb7.png)
+
+
 
 
 
@@ -18,7 +21,7 @@ Parameter-Reflect-Finder is a python based tool that helps you find reflected pa
 # Required Packages
 1. Json
 2. Requests
-3. fake-useragent
+3. Random
 
 Use "pip" to install all the required packages!
 
