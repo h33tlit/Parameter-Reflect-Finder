@@ -2,29 +2,46 @@ import json
 import requests
 from concurrent.futures import ThreadPoolExecutor
 import re
-from fake_useragent import UserAgent
+import random
 
 
 #Author: Jubaer Alnazi
 
 
 
+
+user_agent_list = [
+'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
+'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
+'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0',
+'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+]
+
+user_agent = random.choice(user_agent_list)
+
+
+
 fetched_url = []
 common_fetched_url = set()
-ua = UserAgent()
 
 #Taking user inputs
 domain = input('Type domain (eg. test.com) ==> ')
 max_thread = input('Max thread (eg. 1000) ==> ')
+max_link_to_scan = input('Max Link To Scan (eg. 1000) ==> ')
 
 
 print("=>>> We just started! Give us some time!")
 
 
+if len(max_link_to_scan) == 0:
+    max_link_to_scan = 10000
+
+
 #Capturing API results to get URLs
 
 try:
-    alienvault_request_fetch = requests.get('https://otx.alienvault.com/api/v1/indicators/hostname/'+domain+'/url_list?limit=1000', timeout=5, headers = {'User-Agent':str(ua.chrome)}).json()
+    alienvault_request_fetch = requests.get('https://otx.alienvault.com/api/v1/indicators/hostname/'+domain+'/url_list?limit=1000', headers = {'User-Agent': user_agent}, timeout=5).json()
     for request_url in alienvault_request_fetch['url_list']:
         for characters in request_url['url']:
             if '?' and '=' in characters:
@@ -38,7 +55,7 @@ waybackURL = "https://web.archive.org/cdx/search/cdx?url=*."+ domain +"&output=j
 
 
 try:
-    request = requests.get(waybackURL,headers = {'User-Agent':str(ua.chrome)}, timeout=5)
+    request = requests.get(waybackURL, headers = {'User-Agent': user_agent}, timeout=5)
     load = json.loads(request.text)
     for ur in load:
         for char in ur[0]:
@@ -49,7 +66,7 @@ try:
 except:
     pass
 
-
+link_count = 0
 # Formatting the URLs
 for url in common_fetched_url:
     try:
@@ -61,6 +78,10 @@ for url in common_fetched_url:
                 param_check = str(para_index[0]) + "=" + str(para_index[1]).replace(str(para_index[1]), 'jUbAeR')
                 formatted_url = url.replace(para_string, param_check)
                 fetched_url.append(formatted_url)
+                link_count += 1
+        if link_count > int(max_link_to_scan):
+            break
+
     except:
         pass
 
@@ -71,7 +92,7 @@ print("==>>> We will be scanning "+str(len(fetched_url))+" links!")
 #Scan for reflected keyword
 def check_xss(xss_urls):
     try:
-        req = requests.get(xss_urls, timeout=1, headers = {'User-Agent':str(ua.chrome)}).text
+        req = requests.get(xss_urls, headers = {'User-Agent': user_agent}, timeout=1).text
         regex = re.findall('jUbAeR', req)
         if len(regex) != 0:
             return str(xss_urls)
@@ -91,6 +112,7 @@ try:
         with ThreadPoolExecutor(max_workers=int(max_thread)) as pool:
             response_list = list(pool.map(check_xss, fetched_url))
         file_write = []
+
         for r in response_list:
             if r is not None:
                 found_links.add(r)
@@ -101,6 +123,7 @@ except:
 
 
 #Showing results
+
 
 
 if len(found_links) != 0:
