@@ -37,12 +37,13 @@ print("=>>> We just started! Give us some time!")
 if len(max_link_to_scan) == 0:
     max_link_to_scan = 10000
 
-
+allurl = set()
 #Capturing API results to get URLs
 
 try:
     alienvault_request_fetch = requests.get('https://otx.alienvault.com/api/v1/indicators/hostname/'+domain+'/url_list?limit=1000', headers = {'User-Agent': user_agent}, timeout=5).json()
     for request_url in alienvault_request_fetch['url_list']:
+        allurl.add(request_url['url'])
         for characters in request_url['url']:
             if '?' and '=' in characters:
                 common_fetched_url.add(request_url['url'])
@@ -59,6 +60,7 @@ try:
     load = json.loads(request.text)
     for ur in load:
         for char in ur[0]:
+            allurl.add(ur[0])
             if '?' and '=' in char:
                 common_fetched_url.add(ur[0])
             else:
@@ -140,3 +142,7 @@ elif len(found_links) == 0:
     print('\n#######################-  Result   -###########################')
     print('We could not find anything :( ')
 
+with open('url-%s.txt' % str(domain), 'w') as f:
+    for urls in allurl:
+        f.write('%s\n' % urls)
+print('\n#######################-  We saved all the fetched urls in a text file name "url-%s.txt"!   -###########################' %  str(domain))
