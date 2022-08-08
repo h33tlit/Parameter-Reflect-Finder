@@ -7,7 +7,7 @@
  
   
   
-Parameter-Reflect-Finder is a python based tool that helps you find reflected parameters which can have potential XSS or Open redirection vulnerabilities.
+Parameter-Reflect-Finder is a python based tool that helps you find reflected parameters which can have potential XSS or Open redirection vulnerabilities. After the scan finishes it will fetch all the URLs from alienvault and wayback machine and put it in a text file.
 </p>
 
 
